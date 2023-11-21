@@ -61,8 +61,6 @@ def breadth_first_search(initial_state):
 # function returns `None` to indicate the absence of a solution.
     return None
 
-# rest of the code remains the same
-
     """
     The function `reconstruct_path` takes a node and returns a list of actions that lead to that node by
     traversing its parent nodes.
