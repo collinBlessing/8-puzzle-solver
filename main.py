@@ -1,4 +1,5 @@
-# The Node class represents a node in a tree or graph, with a state, parent node, and action.
+import random
+# The Node class represents a node in the graph, with a state, parent node, and action.
 class Node:
     def __init__(self, state, parent=None, action=None):
         """
@@ -32,9 +33,8 @@ def breadth_first_search(initial_state):
     frontier_set = {tuple(initial_state)}
     explored = set()
 
-# The code block you provided is the main loop of the breadth-first search algorithm.
+
     while frontier:
-        # The code block you provided is performing the following actions:
         current_node = frontier.pop(0)
         frontier_set.remove(tuple(current_node.state))
         explored.add(tuple(current_node.state))
@@ -45,22 +45,25 @@ def breadth_first_search(initial_state):
         if current_node.state == [1, 2, 3, 4, 5, 6, 7, 8, 0]:
             return reconstruct_path(current_node)
 
-# The code block you provided is responsible for generating the successors of the current node in the
+# This code is responsible for generating the successors of the current node in the
 # 8-puzzle problem and adding them to the frontier for further exploration.
         for action, successor_state in get_successors(current_node.state):
             successor_tuple = tuple(successor_state)
-# The code block you provided is responsible for generating the successors of the current node in the
+# This code is responsible for generating the successors of the current node in the
 # 8-puzzle problem and adding them to the frontier for further exploration.
             if successor_tuple not in explored and successor_tuple not in frontier_set:
                 frontier.append(Node(successor_state, current_node, action))
                 frontier_set.add(successor_tuple)
 
-# The `return None` statement is used to indicate that no solution was found for the puzzle. In the
-# context of the `breadth_first_search` function, if the algorithm exhausts all possible states to
+# The `return None` statement is used to indicate that no solution was found for the puzzle. 
+# If the algorithm exhausts all possible states to
 # explore and none of them match the goal state, it means that there is no solution. In that case, the
 # function returns `None` to indicate the absence of a solution.
     return None
 
+
+
+def reconstruct_path(node):
     """
     The function `reconstruct_path` takes a node and returns a list of actions that lead to that node by
     traversing its parent nodes.
@@ -71,11 +74,6 @@ def breadth_first_search(initial_state):
     which the
     :return: a list of actions that represent the path from the given node to the root node.
     """
-
-
-def reconstruct_path(node):
-    # The code block you provided is a function called `reconstruct_path` that takes a node and returns a
-    # list of actions that lead to that node by traversing its parent nodes.
     path = []
     while node:
         path.append(node.action)
@@ -103,12 +101,12 @@ def get_successors(state):
 # respectively.
     moves = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
-# The code block you provided is generating the successors of the current state in the 8-puzzle
+# This code is generating the successors of the current state in the 8-puzzle
 # problem. It iterates over the possible moves (up, down, left, right) and checks if the move is valid
 # (within the bounds of the puzzle board).
     for move in moves:
         new_row, new_col = row + move[0], col + move[1]
-# The code block you provided is generating the successors of the current state in the 8-puzzle
+# This code is generating the successors of the current state in the 8-puzzle
 # problem.
         if 0 <= new_row < 3 and 0 <= new_col < 3:
             successor_state = state[:]
@@ -145,32 +143,44 @@ def get_inversion_count(state):
     """
     inversion_count = 0
     for i in range(9):
-        # The code block you provided is calculating the inversion count of a given state. Inversion count is
-        # a concept used in determining the solvability of the 8-puzzle problem.
+        #Inversion count is a concept used in determining the solvability of the 8-puzzle problem.
+        # The inversion count is the number of pairs of tiles that are in the wrong order. In a solvable state,
+        # the inversion  count must be even. If it's odd, the puzzle is not solvable
         for j in range(i+1, 9):
             if state[j] and state[i] and state[i] > state[j]:
                 inversion_count += 1
     return inversion_count
 
+def generate_random_state():
+    """This function generates a random initial state"""
+    numbers = list(range(9))  # Represents the numbers 0 to 8
+    random.shuffle(numbers)  # Shuffles the numbers randomly
+    return numbers
 
-# The code block you provided is solving the 8-puzzle problem using the breadth-first search
-# algorithm.
-initial_state = [2, 6, 8, 5, 1, 4, 3, 7, 0]  # replace with your initial state
-if get_inversion_count(initial_state) % 2 == 1:
-    print("This puzzle is not solvable.")
-# The code block you provided is checking if the `steps` variable returned by the
-# `breadth_first_search` function is `None`. If it is `None`, it means that no solution was found for
-# the puzzle. In that case, it prints the message "No solution found."
-else:
-    # The code block you provided is checking if the `steps` variable returned by the
-    # `breadth_first_search` function is `None`.
-    steps = breadth_first_search(initial_state)
-    if steps is None:
-        print("No solution found.")
-# The code block you provided is responsible for printing the steps to solve the puzzle if a solution
-# is found. It iterates over the `steps` list, which contains the actions taken to reach each state in
-# the solution path.
+
+def main():
+    """"This is the entry point of the program"""
+        # 8-puzzle problem using the breadth-first search algorithm.
+    initial_state = generate_random_state()
+    print("Initial State:", initial_state)
+
+    if get_inversion_count(initial_state) % 2 == 1:
+        print("This puzzle is not solvable.")
+    # Checking if the `steps` variable returned by the
+    # `breadth_first_search` function is `None`. If it is `None`, it means that no solution was found for
+    # the puzzle. In that case, it prints the message "No solution found."
     else:
-        for i, step in enumerate(steps):
-            if step is not None:  # the first step will be None because it's the initial state
-                print(f"Step {i} -> {step}")
+        steps = breadth_first_search(initial_state)
+        if steps is None:
+            print("No solution found.")
+    # This code is responsible for printing the steps to solve the puzzle if a solution
+    # is found. It iterates over the `steps` list, which contains the actions taken to reach each state in
+    # the solution path.
+        else:
+            for i, step in enumerate(steps):
+                if step is not None:  # the first step will be None because it's the initial state
+                    print(f"Step {i} -> {step}")
+                    
+                    
+if __name__ == "__main__":
+    main()                    
