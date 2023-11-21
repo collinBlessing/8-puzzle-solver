@@ -155,7 +155,7 @@ def get_inversion_count(state):
 
 # The code block you provided is solving the 8-puzzle problem using the breadth-first search
 # algorithm.
-initial_state = [7, 4, 2, 6, 8, 3, 5, 1, 0]  # replace with your initial state
+initial_state = [2, 6, 8, 5, 1, 4, 3, 7, 0]  # replace with your initial state
 if get_inversion_count(initial_state) % 2 == 1:
     print("This puzzle is not solvable.")
 # The code block you provided is checking if the `steps` variable returned by the
